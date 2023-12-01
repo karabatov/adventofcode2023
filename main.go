@@ -8,6 +8,7 @@ import (
 	"time"
 )
 
+// DayFunc takes the input filename as input and returns the answer and error.
 type DayFunc = func(string) (string, error)
 
 func main() {

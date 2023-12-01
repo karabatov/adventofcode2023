@@ -19,6 +19,8 @@ func main() {
 	switch os.Args[1] {
 	case "11":
 		dayFn = day1part1
+	case "12":
+		dayFn = day1part2
 	default:
 		log.Fatalf("Invalid day identifier '%s'", os.Args[1])
 	}
@@ -37,7 +39,7 @@ func main() {
 func forLine(filename string, run func(string)) error {
 	f, err := os.Open(filename)
 	if err != nil {
-		return fmt.Errorf("Could not open file: %s", filename)
+		return fmt.Errorf("could not open file: %s", filename)
 	}
 	defer f.Close()
 

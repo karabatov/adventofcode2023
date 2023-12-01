@@ -5,7 +5,7 @@ import (
 	"unicode"
 )
 
-func day1part1(filename string) (string, error) {
+func day1part2(filename string) (string, error) {
 	var total int
 
 	if err := forLine(filename, func(line string) {

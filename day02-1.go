@@ -9,29 +9,29 @@ import (
 )
 
 // The order is red (0), green (1), blue (2)
-type cubeSet [3]int
+type day2CubeSet [3]int
 
 var (
 	// ID of the game.
-	gameIDRe = regexp.MustCompile(`^Game (\d+): (.*)$`)
+	day2GameIDRe = regexp.MustCompile(`^Game (\d+): (.*)$`)
 	// One color of cube.
-	numColorRe = regexp.MustCompile(`(\d+) (\w+)`)
+	day2NumColorRe = regexp.MustCompile(`(\d+) (\w+)`)
 )
 
 func day2part1(filename string) (string, error) {
 	var total int
 
-	compare := cubeSet{12, 13, 14}
+	compare := day2CubeSet{12, 13, 14}
 
 	if err := forLine(filename, func(line string) {
-		matches := gameIDRe.FindStringSubmatch(line)
+		matches := day2GameIDRe.FindStringSubmatch(line)
 		gameID, _ := strconv.Atoi(matches[1])
-		var maxCubes cubeSet
+		var maxCubes day2CubeSet
 		// A handful of cubes.
 		for _, pick := range strings.Split(matches[2], "; ") {
 			// One color of cubes within a handful.
 			for _, one := range strings.Split(pick, ", ") {
-				oneMatches := numColorRe.FindStringSubmatch(one)
+				oneMatches := day2NumColorRe.FindStringSubmatch(one)
 				num, _ := strconv.Atoi(oneMatches[1])
 				var idx int
 				switch oneMatches[2] {
@@ -49,7 +49,7 @@ func day2part1(filename string) (string, error) {
 				}
 			}
 		}
-		if canPlay(maxCubes, compare) {
+		if day2part1CanPlay(maxCubes, compare) {
 			total += gameID
 		}
 	}); err != nil {
@@ -59,8 +59,8 @@ func day2part1(filename string) (string, error) {
 	return fmt.Sprint(total), nil
 }
 
-// canPlay returns true if the game compare can be played with the set maxCubes.
-func canPlay(maxCubes cubeSet, compare cubeSet) bool {
+// day2part1CanPlay returns true if the game compare can be played with the set maxCubes.
+func day2part1CanPlay(maxCubes day2CubeSet, compare day2CubeSet) bool {
 	res := true
 	for i := 0; i <= 2; i++ {
 		res = res && (maxCubes[i] <= compare[i])

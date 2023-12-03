@@ -26,6 +26,8 @@ func main() {
 		dayFn = day2part1
 	case "22":
 		dayFn = day2part2
+	case "31":
+		dayFn = day3part1
 	default:
 		log.Fatalf("Invalid day identifier '%s'", os.Args[1])
 	}
@@ -55,4 +57,16 @@ func forLine(filename string, run func(string)) error {
 	}
 
 	return nil
+}
+
+func allLines(filename string) ([]string, error) {
+	lines := make([]string, 0)
+
+	if err := forLine(filename, func(line string) {
+		lines = append(lines, line)
+	}); err != nil {
+		return nil, err
+	}
+
+	return lines, nil
 }

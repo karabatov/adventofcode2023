@@ -32,7 +32,7 @@ func day3part1(filename string) (string, error) {
 	}
 	numsWithSymbols := make([]day3Number, 0)
 	for _, num := range day3AllNumbers(lines) {
-		day3WalkAroundNumber(num, lines, func(b byte) bool {
+		day3WalkAroundNumber(num, lines, func(y, x int, b byte) bool {
 			if b != '.' {
 				numsWithSymbols = append(numsWithSymbols, num)
 				return false
@@ -78,13 +78,13 @@ func day3NumbersFromLine(line string, idxY int) []day3Number {
 }
 
 // Runs while test is true.
-func day3WalkAroundNumber(num day3Number, lines []string, test func(byte) bool) {
+func day3WalkAroundNumber(num day3Number, lines []string, test func(int, int, byte) bool) {
 	for y := max(0, num.idxY-1); y < min(len(lines), num.idxY+2); y++ {
 		for x := max(0, num.idxX-1); x < min(len(lines[num.idxY]), num.idxX+num.len+1); x++ {
 			if y == num.idxY && x >= num.idxX && x < num.idxX+num.len {
 				continue
 			}
-			if !test(lines[y][x]) {
+			if !test(y, x, lines[y][x]) {
 				return
 			}
 		}

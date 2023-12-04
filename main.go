@@ -32,6 +32,8 @@ func main() {
 		dayFn = day3part2
 	case "41":
 		dayFn = day4part1
+	case "42":
+		dayFn = day4part2
 	default:
 		log.Fatalf("Invalid day identifier '%s'", os.Args[1])
 	}
@@ -58,6 +60,24 @@ func forLine(filename string, run func(string)) error {
 	scanner.Split(bufio.ScanLines)
 	for scanner.Scan() {
 		run(scanner.Text())
+	}
+
+	return nil
+}
+
+func forLineError(filename string, run func(string) error) error {
+	f, err := os.Open(filename)
+	if err != nil {
+		return fmt.Errorf("could not open file: %s", filename)
+	}
+	defer f.Close()
+
+	scanner := bufio.NewScanner(f)
+	scanner.Split(bufio.ScanLines)
+	for scanner.Scan() {
+		if err := run(scanner.Text()); err != nil {
+			return err
+		}
 	}
 
 	return nil

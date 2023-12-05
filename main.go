@@ -5,6 +5,8 @@ import (
 	"fmt"
 	"log"
 	"os"
+	"regexp"
+	"strconv"
 	"time"
 )
 
@@ -34,6 +36,8 @@ func main() {
 		dayFn = day4part1
 	case "42":
 		dayFn = day4part2
+	case "51":
+		dayFn = day5part1
 	default:
 		log.Fatalf("Invalid day identifier '%s'", os.Args[1])
 	}
@@ -93,4 +97,18 @@ func allLines(filename string) ([]string, error) {
 	}
 
 	return lines, nil
+}
+
+var numberLineRe = regexp.MustCompile(`\d+`)
+
+func parseNumberLine(str string) []int {
+	nums := make([]int, 0)
+	for _, s := range numberLineRe.FindAllString(str, -1) {
+		n, err := strconv.Atoi(s)
+		if err != nil {
+			log.Fatalf("could not convert to number: '%s'", s)
+		}
+		nums = append(nums, n)
+	}
+	return nums
 }

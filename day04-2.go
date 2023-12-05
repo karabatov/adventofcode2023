@@ -17,7 +17,7 @@ func day4part2(filename string) (string, error) {
 		}
 		cards[cardNum] += 1
 
-		numMatches := day4NumberOfMatches(day4NumberSlice(matches[3]), day4NumberSlice(matches[2]))
+		numMatches := day4NumberOfMatches(parseNumberLine(matches[3]), parseNumberLine(matches[2]))
 
 		if numMatches == 0 {
 			return nil

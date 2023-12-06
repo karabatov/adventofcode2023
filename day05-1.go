@@ -16,7 +16,7 @@ type day5Range struct {
 
 // Returns value and true if seed in range, otherwise 0 and false.
 func (r day5Range) mapSeed(seed int) (int, bool) {
-	return r.dst + (seed - r.src), seed >= r.src && seed <= r.src+r.len
+	return r.dst + (seed - r.src), seed >= r.src && seed < r.src+r.len
 }
 
 func day5part1(filename string) (string, error) {

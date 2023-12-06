@@ -14,7 +14,7 @@ func day5part2(filename string) (string, error) {
 			seedRanges := parseNumberLine(matches[1])
 			// TODO: Map ranges instead of individual items.
 			for i := 0; i < len(seedRanges)-1; i += 2 {
-				for j := seedRanges[i]; j <= seedRanges[i]+seedRanges[i+1]; j++ {
+				for j := seedRanges[i]; j < seedRanges[i]+seedRanges[i+1]; j++ {
 					seeds = append(seeds, j)
 				}
 			}

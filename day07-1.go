@@ -66,7 +66,7 @@ type day7Move struct {
 func day7part1(filename string) (string, error) {
 	var moves []day7Move
 	if err := forLineError(filename, func(line string) error {
-		m, err := day7ParseMove(line)
+		m, err := day7ParseMove(line, day7ParseHand)
 		if err != nil {
 			return err
 		}
@@ -88,17 +88,31 @@ func day7part1(filename string) (string, error) {
 }
 
 func day7HandType(cards string) day7Type {
-	var t day7Type
+	chars := day7Chars(cards)
+	counts := day7CountsFromChars(chars)
+	return day7TypeFromCounts(counts)
+}
+
+func day7Chars(cards string) map[rune]int {
 	chars := make(map[rune]int)
 	for _, b := range cards {
 		chars[b] += 1
 	}
+	return chars
+}
+
+func day7CountsFromChars(chars map[rune]int) []int {
 	counts := make([]int, 0)
 	for _, v := range chars {
 		counts = append(counts, v)
 	}
 	slices.Sort(counts)
 	slices.Reverse(counts)
+	return counts
+}
+
+func day7TypeFromCounts(counts []int) day7Type {
+	var t day7Type
 	if slices.Equal(counts, []int{5}) {
 		t = day7Type5OfAKind
 	} else if slices.Equal(counts, []int{4, 1}) {
@@ -124,10 +138,10 @@ func day7ParseHand(cards string) day7Hand {
 	}
 }
 
-func day7ParseMove(line string) (day7Move, error) {
+func day7ParseMove(line string, parseHand func(string) day7Hand) (day7Move, error) {
 	splits := strings.Split(line, " ")
 	move := day7Move{
-		hand: day7ParseHand(splits[0]),
+		hand: parseHand(splits[0]),
 	}
 	bid, err := strconv.Atoi(splits[1])
 	if err != nil {

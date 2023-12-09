@@ -48,6 +48,8 @@ func main() {
 		dayFn = day7part1
 	case "72":
 		dayFn = day7part2
+	case "91":
+		dayFn = day9part1
 	default:
 		log.Fatalf("Invalid day identifier '%s'", os.Args[1])
 	}
@@ -109,7 +111,7 @@ func allLines(filename string) ([]string, error) {
 	return lines, nil
 }
 
-var numberLineRe = regexp.MustCompile(`\d+`)
+var numberLineRe = regexp.MustCompile(`-?\d+`)
 
 func parseNumberLine(str string) []int {
 	nums := make([]int, 0)

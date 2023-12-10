@@ -115,7 +115,7 @@ func (g day10Ground) startPipeType(start day10Pos) day10Pipe {
 	}
 	pipe, ok := day10StartPipes[res[0]][res[1]]
 	if !ok {
-		log.Fatalf("There should be a pipe variant for ", res)
+		log.Fatalf("There should be a pipe variant for %v", res)
 	}
 	return pipe
 }

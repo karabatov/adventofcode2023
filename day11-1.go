@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"slices"
 )
 
@@ -19,20 +18,25 @@ func day11part1(filename string) (string, error) {
 	}
 	u = day11ExpandMapVertical(u)
 	day11ExpandMapHorizontal(u)
+	day11PrintMap(u)
+	gal := day11FindGalaxies(u)
+	pairs := day11AllPairs(gal)
+	var total int
+	for _, p := range pairs {
+		total += day11PathLen(u, p[0], p[1], func(dp day11Pos) int {
+			return 1
+		})
+	}
+	return fmt.Sprint(total), nil
+}
+
+func day11PrintMap(u day11Map) {
 	for _, vy := range u {
 		for _, vx := range vy {
 			fmt.Print(string(vx))
 		}
 		fmt.Println()
 	}
-	gal := day11FindGalaxies(u)
-	pairs := day11AllPairs(gal)
-	log.Print(len(pairs))
-	var total int
-	for _, p := range pairs {
-		total += day11PathLen(u, p[0], p[1])
-	}
-	return fmt.Sprint(total), nil
 }
 
 func day11ReadMap(filename string) (day11Map, error) {
@@ -112,7 +116,7 @@ type day11Node struct {
 	l int
 }
 
-func day11PathLen(u day11Map, from, to day11Pos) int {
+func day11PathLen(u day11Map, from, to day11Pos, weight func(day11Pos) int) int {
 	rowMove := []int{-1, 0, 0, 1}
 	colMove := []int{0, -1, 1, 0}
 	visited := make(map[day11Pos]bool)
@@ -136,7 +140,7 @@ func day11PathLen(u day11Map, from, to day11Pos) int {
 			p := day11Pos{pt.y + colMove[i], pt.x + rowMove[i]}
 			if u.isValidPos(p) && !visited[p] {
 				visited[p] = true
-				q = append(q, day11Node{p, currNode.l + 1})
+				q = append(q, day11Node{p, currNode.l + weight(pt)})
 			}
 		}
 	}

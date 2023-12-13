@@ -18,12 +18,12 @@ func day13part1(filename string) (string, error) {
 		day13PrintMap(m)
 		if row, ok := m.findRowReflection(); ok {
 			log.Print(i, " Row ", row)
-			rows += 100 * row
+			rows += 100 * row[0]
 			continue
 		}
 		if column, ok := m.findColumnReflection(); ok {
 			log.Print(i, " Column ", column)
-			cols += column
+			cols += column[0]
 			continue
 		}
 	}
@@ -58,7 +58,8 @@ func day13ReadMaps(filename string) ([]day13Map, error) {
 }
 
 // Returns 0-based index of row and true if reflected.
-func (m day13Map) findRowReflection() (int, bool) {
+func (m day13Map) findRowReflection() ([]int, bool) {
+	var rows []int
 	row := 1
 	for row < len(m) {
 		res := true
@@ -69,15 +70,16 @@ func (m day13Map) findRowReflection() (int, bool) {
 			}
 		}
 		if res {
-			return row, true
+			rows = append(rows, row)
 		}
 		row += 1
 	}
-	return 0, false
+	return rows, len(rows) > 0
 }
 
 // Returns 0-based index of column and true if reflected.
-func (m day13Map) findColumnReflection() (int, bool) {
+func (m day13Map) findColumnReflection() ([]int, bool) {
+	var cols []int
 	column := 1
 	for column < len(m[0]) {
 		res := true
@@ -88,11 +90,11 @@ func (m day13Map) findColumnReflection() (int, bool) {
 			}
 		}
 		if res {
-			return column, true
+			cols = append(cols, column)
 		}
 		column += 1
 	}
-	return 0, false
+	return cols, len(cols) > 0
 }
 
 func (m day13Map) colsEqual(l, r int) bool {

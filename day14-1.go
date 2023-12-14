@@ -2,7 +2,6 @@ package main
 
 import (
 	"fmt"
-	"log"
 	"slices"
 )
 
@@ -22,7 +21,7 @@ func day14part1(filename string) (string, error) {
 	return fmt.Sprint(total), nil
 }
 
-func day14SlideLeft(s []byte) {
+func day14Slide(s []byte, cmp func(byte, byte) int) {
 	var i, l int
 	for i < len(s) {
 		if l == i {
@@ -36,24 +35,19 @@ func day14SlideLeft(s []byte) {
 			continue
 		}
 		if s[i] == '#' {
-			slices.SortFunc(s[l:i], func(a, b byte) int {
-				return int(b) - int(a)
-			})
+			slices.SortFunc(s[l:i], cmp)
 			l = i + 1
 		} else if i == len(s)-1 {
-			slices.SortFunc(s[l:i+1], func(a, b byte) int {
-				return int(b) - int(a)
-			})
+			slices.SortFunc(s[l:i+1], cmp)
 		}
 		i += 1
 	}
 }
 
-func day14PrintSlide(s []byte) {
-	for _, v := range s {
-		fmt.Print(string(v))
-	}
-	fmt.Println()
+func day14SlideLeft(s []byte) {
+	day14Slide(s, func(a, b byte) int {
+		return int(b) - int(a)
+	})
 }
 
 func (m day14Map) column(x int) []byte {
@@ -84,7 +78,5 @@ func day14Weight(s []byte) int {
 			res += l - i
 		}
 	}
-	day14PrintSlide(s)
-	log.Print(res)
 	return res
 }

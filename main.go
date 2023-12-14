@@ -66,6 +66,8 @@ func main() {
 		dayFn = day13part2
 	case "141":
 		dayFn = day14part1
+	case "142":
+		dayFn = day14part2
 	default:
 		log.Fatalf("Invalid day identifier '%s'", os.Args[1])
 	}

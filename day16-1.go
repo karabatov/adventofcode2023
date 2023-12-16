@@ -40,7 +40,7 @@ func (f day16Field) run() day16Ener {
 	eLen := len(e)
 	eSame := 0
 	q := day16Queue{day16Step{day16Pos{0, 0}, day16East}}
-	for len(q) > 0 && eSame < 100000000 {
+	for len(q) > 0 && eSame < 10000000 {
 		next := q[0]
 		q = q[1:]
 		for _, s := range f.step(next) {

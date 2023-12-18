@@ -10,7 +10,7 @@
             "request": "launch",
             "mode": "auto",
             "program": "${fileDirname}",
-            "args": ["171", "input17-1.txt"]
+            "args": ["181", "input18-1.txt"]
         }
     ]
 }

@@ -26,7 +26,7 @@ func day22part1(filename string) (string, error) {
 	if err != nil {
 		return "", err
 	}
-	fall := day22Fall(bricks)
+	fall, _ := day22Fall(bricks)
 	sup := day22FindSupports(fall)
 	destroyed := sup.canDestroy(fall)
 	return fmt.Sprint(len(destroyed)), nil
@@ -101,7 +101,9 @@ func day22FindSupports(fall []day22Brick) day22Supports {
 	return sup
 }
 
-func day22Fall(b []day22Brick) []day22Brick {
+// Returns fallen bricks and count.
+func day22Fall(b []day22Brick) ([]day22Brick, int) {
+	var count int
 	field := day22MakeField(b)
 	var res []day22Brick
 	for _, air := range b {
@@ -109,9 +111,12 @@ func day22Fall(b []day22Brick) []day22Brick {
 		z := field.maxZDiff(ground)
 		ground.moveZ(z)
 		field.setZ(ground)
+		if z > 0 {
+			count += 1
+		}
 		res = append(res, ground)
 	}
-	return res
+	return res, count
 }
 
 func (b *day22Brick) moveZ(by int) {

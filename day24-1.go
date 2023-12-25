@@ -13,10 +13,6 @@ type day24Hail struct {
 	p, dir day24Vec3
 }
 
-type day24Segment struct {
-	p1, p2 day24Vec3
-}
-
 func day24part1(filename string) (string, error) {
 	hails, err := day24ReadList(filename)
 	if err != nil {
